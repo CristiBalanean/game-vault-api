@@ -3,7 +3,10 @@ const cors = require('cors')
 const fetch = require('node-fetch')
 
 const app = express()
-app.use(cors())
+
+app.use(cors({
+    origin: ['https://game-vault-tau-seven.vercel.app', 'http://localhost:5173']
+}))
 
 app.get('/api/steam/:steamId', async (req, res) => {
     try {
