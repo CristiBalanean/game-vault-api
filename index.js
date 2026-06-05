@@ -21,15 +21,13 @@ app.get('/api/steam/:steamId', async (req, res) => {
     }
 })
 
-app.get('/api/rawg/*path', async (req, res) => {
+app.get('/api/rawg', async (req, res) => {
     try {
-        const path = req.params.path
-        const query = new URLSearchParams(req.query).toString()
-        const url = `https://api.rawg.io/api/${path}?key=${RAWG_KEY}&${query}`
-        console.log('RAWG_KEY exists:', !!RAWG_KEY)
-        console.log('Fetching URL:', url)
+        const { endpoint, ...params } = req.query
+        const query = new URLSearchParams({ ...params, key: RAWG_KEY }).toString()
+        const url = `https://api.rawg.io/api/${endpoint}?${query}`
+        console.log('Fetching:', url)
         const response = await fetch(url)
-        console.log('Response status:', response.status)
         const data = await response.json()
         res.json(data)
     } catch (err) {
