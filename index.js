@@ -26,10 +26,14 @@ app.get('/api/rawg/*path', async (req, res) => {
         const path = req.params.path
         const query = new URLSearchParams(req.query).toString()
         const url = `https://api.rawg.io/api/${path}?key=${RAWG_KEY}&${query}`
+        console.log('RAWG_KEY exists:', !!RAWG_KEY)
+        console.log('Fetching URL:', url)
         const response = await fetch(url)
+        console.log('Response status:', response.status)
         const data = await response.json()
         res.json(data)
     } catch (err) {
+        console.log('Error:', err.message)
         res.status(500).json({ error: 'Failed to fetch RAWG data' })
     }
 })
