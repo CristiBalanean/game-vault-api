@@ -21,7 +21,7 @@ app.get('/api/steam/:steamId', async (req, res) => {
     }
 })
 
-app.get('/api/rawg/:path(*)', async (req, res) => {
+app.get('/api/rawg/*path', async (req, res) => {
     try {
         const path = req.params.path
         const query = new URLSearchParams(req.query).toString()
