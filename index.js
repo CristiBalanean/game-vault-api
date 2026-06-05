@@ -4,6 +4,8 @@ const fetch = require('node-fetch')
 
 const app = express()
 
+const RAWG_KEY = process.env.RAWG_KEY
+
 app.use(cors({
     origin: ['https://game-vault-tau-seven.vercel.app', 'http://localhost:5173']
 }))
@@ -16,6 +18,19 @@ app.get('/api/steam/:steamId', async (req, res) => {
         res.json(data)
     } catch (err) {
         res.status(500).json({ error: 'Failed to fetch Steam data' })
+    }
+})
+
+app.get('/api/rawg/*', async (req, res) => {
+    try {
+        const path = req.params[0]
+        const query = new URLSearchParams(req.query).toString()
+        const url = `https://api.rawg.io/api/${path}?key=${RAWG_KEY}&${query}`
+        const response = await fetch(url)
+        const data = await response.json()
+        res.json(data)
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch RAWG data' })
     }
 })
 
